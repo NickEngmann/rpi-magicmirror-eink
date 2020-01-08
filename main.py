@@ -15,26 +15,24 @@ from PIL import Image
 
 # Import the waveshare folder (containing the waveshare display drivers) without refactoring it to a module
 # TODO maybe switch to a git submodule here and upgrade to the latest version:
-# https://github.com/waveshare/e-Paper/blob/master/RaspberryPi%26JetsonNano/python/lib/waveshare_epd/epd7in5bc.py
+# https://github.com/waveshare/e-Paper/blob/master/RaspberryPi%26JetsonNano/python/lib/waveshare_epd/epd7in5_V2c.py
 sys.path.insert(0, './waveshare')
-import epd7in5b
+import epd7in5_V2
 
 
 # Global config
-display_width = 384		# Width of the display
-display_height = 640		# Height of the display
+display_width = 480		# Width of the display
+display_height = 800		# Height of the display
 is_portrait = True		# True of the display should be in landscape mode (make sure to adjust the width and height accordingly)
 wait_to_load = 60		# Page load timeout
 wait_after_load = 18		# Time to evaluate the JS afte the page load (f.e. to lazy-load the calendar data)
 url = 'http://localhost:8080'	# URL to create the screenshot of
 
 def reset_screen():
-    global display_width
-    global display_height
-    epd = epd7in5b.EPD()
+    epd = epd7in5_V2.EPD()
     epd.init()
-    epd.display_frame([0xFF] * int(display_width * display_height / 4))
-    epd.sleep()
+    Limage = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
+    epd.display(epd.getbuffer(Limage))
 
 
 async def create_screenshot(file_path):
@@ -78,7 +76,7 @@ def remove_aliasing_artefacts(image):
 async def refresh():
     logging.info('Starting refresh.')
     logging.debug('Initializing / waking screen.')
-    epd = epd7in5b.EPD()
+    epd = epd7in5_V2.EPD()
     epd.init()
     with tempfile.NamedTemporaryFile(suffix='.png') as tmp_file:
         logging.debug(f'Created temporary file at {tmp_file.name}.')
@@ -92,7 +90,8 @@ async def refresh():
            logging.debug('Rotating image (portrait mode).')
            image = image.rotate(90)
         logging.debug('Sending image to screen.')
-        epd.display_frame(epd.get_frame_buffer(image))
+        # epd.display_frame(epd.get_frame_buffer(image))
+        epd.display(epd.getbuffer(image))
     logging.debug('Sending display back to sleep.')
     epd.sleep()
     logging.info('Refresh finished.')

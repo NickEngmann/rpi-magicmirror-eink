@@ -2,8 +2,8 @@
 Description=RPi MagicMirror EInk
 
 [Service]
-WorkingDirectory=/home/pi/repos/rpi-magicmirror-eink/
-ExecStart=/home/pi/repos/rpi-magicmirror-eink/run.sh
+WorkingDirectory=/home/pi/rpi-magicmirror-eink/
+ExecStart=/home/pi/rpi-magicmirror-eink/run.sh
 Restart=on-failure
 User=pi
 
