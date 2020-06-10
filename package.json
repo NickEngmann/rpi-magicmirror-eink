@@ -1,0 +1,21 @@
+{
+  "name": "epaperscreenshot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "debug": "DEBUG=puppeteer,puppeteer:cpPython node index.js",
+    "debugFull": "DEBUG=puppeteer:*, node index.js"
+  },
+  "author": "benroe",
+  "license": "ISC",
+  "dependencies": {
+    "core-util-is": "^1.0.2",
+    "cron": "^1.8.2",
+    "debug": "^4.1.1",
+    "jimp": "^0.9.5",
+    "puppeteer-core": "2.1.1",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
