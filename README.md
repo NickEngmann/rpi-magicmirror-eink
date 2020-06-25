@@ -6,7 +6,7 @@ This script is inspired by [BenRoe's rpi-magic-mirror-eink](https://github.com/B
 The python script uses [pyppeteer (Python implementation of Chromium's instrumentation API)](https://github.com/miyakogi/pyppeteer) to take a screenshot of a website (usually a locally running instance of [MagicMirror²](https://magicmirror.builders)) and then renders the screenshot on Waveshare's 7.5" 3-color display.
 
 ## Requirements
-- Raspbian Buster (Python 3.6+)
+- Raspbian Buster
 - Waveshare 7.5 3-color epaper display
 - Ikea RIBBA frame (13x18cm)
 
@@ -58,23 +58,27 @@ The python script uses [pyppeteer (Python implementation of Chromium's instrumen
 - Clone this repository:
   ```bash
   cd ~/repos
-  git clone https://github.com/alexrashed/rpi-magicmirror-eink.git
+  git clone https://github.com/NickEngmann/rpi-magicmirror-eink.git
   ```
 - Setup the Python environment:
   ```bash
-  cd rpi-magicmirror-eink
-  python3.7 -m venv .venv
-  source .venv/bin/activate
+  cd rpi-magicmirror-eink/ePaperPython
   pip install -r requirements
   ```
+
+- Move to the project folder
+```shell
+cd ~/rpi-magicmirror-eink
+```
+
+- Install Node.js dependencies (inside the `rpi-magicmirror-eink` folder)
+```shell
+npm install
+```
+
 - Copy the MagicMirror² config, CSS and fonts into the MagicMirror directory:
   ```bash
   cp -r ./magicmirror-files/. ~/repos/MagicMirror
-  ```
-- Install the MagicMirror modules:
-  ```bash
-  cd ~/repos/MagicMirror/modules
-  git clone https://github.com/alexrashed/calendar_monthly.git
   ```
 - Adjust the config to your needs (set calendars, weather info,...):
   ```bash
@@ -102,18 +106,16 @@ The python script uses [pyppeteer (Python implementation of Chromium's instrumen
   pm2 start ~/repos/MagicMirror/installers/pm2_MagicMirror.json
   pm2 save
   ```
-- Setup the automatic startup on boot for the python script:
-  ```bash
-  sudo cp ~/repos/rpi-magicmirror-eink/rpi-magicmirror-eink.service /etc/systemd/system/rpi-magicmirror-eink.service
-  sudo chmod 644 /etc/systemd/system/rpi-magicmirror-eink.service
-  sudo systemctl enable rpi-magicmirror-eink
-  sudo systemctl start rpi-magicmirror-eink
-  sudo systemctl status rpi-magicmirror-eink
+ 
+- Start the script with PM2 and run it in the background
+  ```shell
+  pm2 start index.js --name "eink-update"
+  pm2 save
   ```
 
 ## Configuration
 Currently the script is configured by modifying the global variables at the top of [main.py](main.py).
-The cron schedule can be adjusted in the [run.sh](run.sh) script.
+The cron schedule can be adjusted in the [config.js](config.js) file.
 
 ## Resources
 - Reused the [Cherry bitmap font files](https://github.com/turquoise-hexagon/cherry) by [marin](https://github.com/turquoise-hexagon) converted to ttf with [Bits'N'Picas](https://github.com/kreativekorp/bitsnpicas) by [BenRoe](https://github.com/BenRoe/)
