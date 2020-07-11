@@ -25,7 +25,7 @@
  # THE SOFTWARE.
  ##
 
-import epd7in5b_V2
+import epd7in5b_HD 
 from PIL import Image
 import logging
 import PIL.ImageOps
@@ -61,7 +61,7 @@ def remove_aliasing_artefacts(image):
 def main():
     logging.info('Starting refresh.')
     logging.debug('Initializing / waking screen.')
-    epd = epd7in5b_V2.EPD()
+    epd = epd7in5b_HD.EPD()
     epd.init()
 
     og_image = Image.open('screenshot.png')
