@@ -16,6 +16,6 @@
     "debug": "^4.1.1",
     "jimp": "^0.9.5",
     "puppeteer-core": "2.1.1",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.2"
   }
 }
